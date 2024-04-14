@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     // Load CSS file
     const styleSheet = document.createElement("link");
-    styleSheet.href = "./home.css";
+    styleSheet.href = "src/components/HomeComponent/home.css";
     styleSheet.rel = "stylesheet";
     styleSheet.type = "text/css";
     document.head.appendChild(styleSheet);
@@ -40,7 +40,24 @@ const Home = () => {
           {" "}
           <div className="text-white text-3xl font-bold">Welcome User</div>
           <div>
-            <button className="text-white bg-slate-600 h-10 ">Logout</button>
+            <button className="mt-2 h-10 bg-red-700">
+              <span className="span-mother">
+                <span>L</span>
+                <span>O</span>
+                <span>G</span>
+                <span>O</span>
+                <span>U</span>
+                <span>T</span>
+              </span>
+              <span className="span-mother2">
+                <span>L</span>
+                <span>O</span>
+                <span>G</span>
+                <span>O</span>
+                <span>U</span>
+                <span>T</span>
+              </span>
+            </button>
           </div>
         </div>
       </div>

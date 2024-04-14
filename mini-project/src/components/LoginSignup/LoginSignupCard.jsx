@@ -12,7 +12,7 @@ function FlipCard() {
   useEffect(() => {
     // Load CSS file
     const styleSheet = document.createElement("link");
-    styleSheet.href = "./cssloginsignup.css";
+    styleSheet.href = "src/components/LoginSignup/cssloginsignup.css";
     styleSheet.rel = "stylesheet";
     styleSheet.type = "text/css";
     document.head.appendChild(styleSheet);
@@ -51,6 +51,7 @@ function FlipCard() {
       .catch((error) => {
         console.log(error);
       });
+    alert("The User is registered successfully");
   };
 
   return (
