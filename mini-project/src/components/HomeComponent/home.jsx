@@ -2,6 +2,8 @@
 import React from "react";
 import avatar from "../../images/avatar.png";
 import { useState, useEffect } from "react";
+import InsertImage from "../InsertImage/InsertImage";
+import SelectModels from "../SelectModels/SelectModels";
 
 const Home = () => {
   const [projectName, setProjectName] = useState("");
@@ -92,8 +94,12 @@ const Home = () => {
         {/* main content starts here  */}
         {!visible && (
           <div>
-            <h1>Hello </h1>
-            <h1>{projectName}</h1>
+            <h1 className="font-bold text-3xl mb-11 flex justify-center underline  ">
+              {`${projectName}`}
+            </h1>
+            <InsertImage />
+
+            <SelectModels />
           </div>
         )}
         {/* main content ends here  */}

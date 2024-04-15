@@ -34,6 +34,8 @@ function FlipCard() {
         if (result.data == "Success") {
           console.log("Successfully logged in");
           navigate("/homepage");
+        } else {
+          alert("Kindly Check the username and password");
         }
       })
       .catch((err) => console.log(err));

@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
+import TechnologyList from "./components/temp/temp";
 
 function App() {
   return (
