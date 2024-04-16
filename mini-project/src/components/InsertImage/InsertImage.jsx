@@ -54,7 +54,8 @@ const InsertImage = () => {
           },
         })
         .then((response) => {
-          console.log("Response From Server: ", response.data);
+          console.log("Response From Server:", response.data);
+          alert(response.data);
         })
         .catch((err) => {
           console.log("Error From Server: ", err);

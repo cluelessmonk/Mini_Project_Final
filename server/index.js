@@ -52,26 +52,31 @@ const upload = multer({ storage });
 app.post("/upload", upload.array("images"), (req, res) => {
   // Handle file upload here
   const folderPath = path.join(__dirname, "uploads"); // __dirname represents the current directory
-  const folderPath1 = path.join(__dirname, req.body.email); // __dirname represents the current directory
+  const folderPath1 = path.join(folderPath, req.body.email); // __dirname represents the current directory
   const filePath = path.join(folderPath1, "success.txt");
+  console.log(filePath);
   const fileContent = "This is a success message!";
 
   // Create the uploads folder if it doesn't exist
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath);
   }
-  console.log(req.body);
+  // console.log(req.body);
   // Write to the success.txt file
-  fs.writeFile(filePath, fileContent, (err) => {
-    if (err) {
-      console.error("Error creating file:", err);
-    } else {
-      console.log("File created successfully:", filePath);
-    }
-  });
-  console.log(req.body);
-
-  res.send("Files uploaded successfully");
+  if (req.body.folderName == 1) {
+    fs.writeFile(filePath, fileContent, (err) => {
+      if (err) {
+        console.error("Error creating file:", err);
+      } else {
+        console.log("File created successfully:", filePath);
+      }
+    });
+    res.send(
+      "All Files for the classifications are Uploaded Move on to the training section"
+    );
+  } else {
+    res.send("File Uploaded Move on to the next classification");
+  }
 });
 // app.post('/model', async (req, res) => {
 
