@@ -47,12 +47,18 @@ const InsertImage = () => {
     console.log(formData);
     console.log("Helre");
     try {
-      await axios.post("http://localhost:5000/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("Files uploaded successfully");
+      await axios
+        .post("http://localhost:5000/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("Response From Server: ", response.data);
+        })
+        .catch((err) => {
+          console.log("Error From Server: ", err);
+        });
     } catch (error) {
       console.error("Error uploading files:", error);
     }
@@ -68,7 +74,13 @@ const InsertImage = () => {
     // Destructuring key from props
     return (
       <div className="mt-10 flex flex-row items-center justify-center ">
-        <input type="file" multiple />
+        <input
+          type="file"
+          multiple
+          onChange={(e) => {
+            setFiles(e.target.files);
+          }}
+        />
         <button className="w-28 hover:bg-green-400" onClick={handleUpload}>
           <div className="svg-wrapper-1">
             <div className="svg-wrapper">

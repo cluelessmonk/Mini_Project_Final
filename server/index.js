@@ -44,13 +44,13 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ dest: path.join(__dirname, "uploads/") });
+const upload = multer({ storage });
 
 // Multer Middleware to handle file uploads
 app.post("/upload", upload.array("images"), (req, res) => {
   // Handle file upload here
   const folderPath = path.join(__dirname, "uploads"); // __dirname represents the current directory
-  const folderPath1 = path.join(__dirname, "abc@d.com"); // __dirname represents the current directory
+  const folderPath1 = path.join(__dirname, req.body.email); // __dirname represents the current directory
   const filePath = path.join(folderPath1, "success.txt");
   const fileContent = "This is a success message!";
 
