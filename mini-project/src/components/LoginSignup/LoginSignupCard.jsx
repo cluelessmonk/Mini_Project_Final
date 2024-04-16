@@ -28,7 +28,7 @@ function FlipCard() {
 
     console.log(`the email is ${email}, password is ${password}`);
     axios
-      .post("http://localhost:3001/login", { email, password })
+      .post("http://localhost:5000/login", { email, password })
       .then((result) => {
         console.log(result);
         if (result.data == "Success") {
@@ -46,7 +46,7 @@ function FlipCard() {
       `The email is ${email}, password is ${password} the name is ${name}`
     );
     axios
-      .post("http://localhost:3001/register", { name, email, password })
+      .post("http://localhost:5000/register", { name, email, password })
       .then((response) => {
         console.log(response);
       })

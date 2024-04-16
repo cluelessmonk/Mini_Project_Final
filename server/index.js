@@ -6,6 +6,8 @@ const cors = require("cors"); // Import cors
 const axios = require("axios");
 const app = express();
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const EmployeeModel = require("./models/Employee");
 // Parse JSON bodies
 app.use(bodyParser.json());
 
@@ -17,7 +19,7 @@ app.use(cors()); // Enable CORS for all routes
 const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
     let folderPath = `uploads/${req.body.email}`;
-    console.log("multer");
+
     try {
       // Check if the folder already exists
       await fs.promises.access(folderPath);
@@ -58,7 +60,7 @@ app.post("/upload", upload.array("images"), (req, res) => {
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath);
   }
-
+  console.log(req.body);
   // Write to the success.txt file
   fs.writeFile(filePath, fileContent, (err) => {
     if (err) {
@@ -82,6 +84,9 @@ app.post("/upload", upload.array("images"), (req, res) => {
 //     console.error(err);
 //   });
 // });
+mongoose.connect("mongodb://127.0.0.1:27017/employee").then(() => {
+  console.log("mongodb connected");
+});
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
