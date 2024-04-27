@@ -3,7 +3,6 @@ import React from "react";
 import avatar from "../../images/avatar.png";
 import { useState, useEffect } from "react";
 import InsertImage from "../InsertImage/InsertImage";
-import SelectModels from "../SelectModels/SelectModels";
 
 const Home = () => {
   const [projectName, setProjectName] = useState("");
@@ -98,8 +97,6 @@ const Home = () => {
               {`${projectName}`}
             </h1>
             <InsertImage />
-
-            <SelectModels />
           </div>
         )}
         {/* main content ends here  */}

@@ -7,7 +7,7 @@ const axios = require("axios");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const EmployeeModel = require("./models/Employee");
+const EmployeeModel = require("./model/Employee");
 // Parse JSON bodies
 app.use(bodyParser.json());
 
@@ -91,10 +91,7 @@ app.post("/upload", upload.array("images"), (req, res) => {
 // });
 mongoose.connect("mongodb://127.0.0.1:27017/employee").then(() => {
   console.log("mongodb connected");
-});
-
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+  // console.log(err);
 });
 
 app.post("/register", (req, res) => {
@@ -115,6 +112,9 @@ app.post("/login", (req, res) => {
       res.json("No User Exist with this email");
     }
   });
+});
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
 });
 // // Login And registers middlewares ends here
 // const PORT = process.env.PORT || 3001;

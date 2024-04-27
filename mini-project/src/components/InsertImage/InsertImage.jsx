@@ -2,6 +2,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import SelectModels from "../SelectModels/SelectModels";
 const InsertImage = () => {
   const [numComponents, setNumComponents] = useState(0);
   const [temp, setTemp] = useState(0);
@@ -130,6 +131,7 @@ const InsertImage = () => {
           <PreMadeDiv key={index} />
         ))}
       </div>
+      <SelectModels noOfClasses={numComponents} />
     </div>
   );
 };

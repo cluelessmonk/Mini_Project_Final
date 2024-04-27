@@ -27,16 +27,20 @@ function FlipCard() {
     e.preventDefault();
 
     console.log(`the email is ${email}, password is ${password}`);
+
     axios
       .post("http://localhost:5000/login", { email, password })
       .then((result) => {
         console.log(result);
+        console.log("here");
         if (result.data == "Success") {
           console.log("Successfully logged in");
+
           navigate("/homepage");
         } else {
           alert("Kindly Check the username and password");
         }
+        console.log("here");
       })
       .catch((err) => console.log(err));
   };
