@@ -42,7 +42,7 @@ async def handle_model(email: str, input_data: ModelInput, request: Request):
     email = input_data.email
     no_of_classes = input_data.no_of_classes
     selected_models = await request.json()  # Access JSON data from request body
-    a = await preprocess(email, no_of_classes)
+    # a = await preprocess(email, no_of_classes)
     accuracy=[]
     for model in selected_models["selectedModels"]:
         if model == "GoogleNet":

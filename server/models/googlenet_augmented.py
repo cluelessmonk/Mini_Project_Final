@@ -2,14 +2,15 @@ import os
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from keras.preprocessing.image import img_to_array, load_img
 from PIL import Image
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, classification_report
 import matplotlib.pyplot as plt
+
 
 async def train_and_get_accuracy(email, no_of_classes):
     script_dir = os.getcwd()
@@ -58,7 +59,11 @@ async def train_and_get_accuracy(email, no_of_classes):
         return np.array(images), np.array(labels)
 
     base_model = InceptionV3(weights=weights_file, include_top=False, input_shape=input_shape)
-    predictions = Dense(num_classes, activation='softmax')(GlobalAveragePooling2D()(base_model.output))
+    x = base_model.output
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(1024, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    predictions = Dense(num_classes, activation='softmax')(x)
 
     # Load the data
     images, labels = load_data()
@@ -75,14 +80,11 @@ async def train_and_get_accuracy(email, no_of_classes):
     model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Train the model
-    batch_size = 32
-    steps_per_epoch = len(images) // batch_size
+    batch_size = 32  # Change batch size to 32
 
     history = model.fit(
         train_datagen.flow(images, labels_categorical, batch_size=batch_size),
-        steps_per_epoch=steps_per_epoch,
-        epochs=10,
-        verbose=1
+        epochs=10
     )
 
     # Save loss history to a file
@@ -94,7 +96,7 @@ async def train_and_get_accuracy(email, no_of_classes):
 
     # Save plot of loss function graph
     plt.plot(history.history['loss'])
-    plt.title('Model Loss')
+    plt.title('GoogleNet Model Loss')
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
     plt.legend(['Train'], loc='upper right')
@@ -148,6 +150,8 @@ async def train_and_get_accuracy(email, no_of_classes):
     dev_conf_matrix = confusion_matrix(dev_labels, dev_predicted_labels)
     test_conf_matrix = confusion_matrix(test_labels, test_predicted_labels)
 
+
+
     print("Dev Set Confusion Matrix:")
     print(dev_conf_matrix)
 
@@ -160,6 +164,10 @@ async def train_and_get_accuracy(email, no_of_classes):
 
     dev_recall = recall_score(dev_labels, dev_predicted_labels, average='macro')
     test_recall = recall_score(test_labels, test_predicted_labels, average='macro')
+
+    # Classification Reports
+    dev_classification_report = classification_report(dev_labels, dev_predicted_labels)
+    test_classification_report = classification_report(test_labels, test_predicted_labels)
 
     # Save evaluation metrics to file
     with open(evaluation_file, 'a') as f:
@@ -175,6 +183,10 @@ async def train_and_get_accuracy(email, no_of_classes):
         f.write(f"Test Precision: {test_precision}\n")
         f.write(f"\nDev Recall: {dev_recall}\n")
         f.write(f"Test Recall: {test_recall}\n")
+        f.write("\nClassification Report (Dev Set):\n")
+        f.write(dev_classification_report)
+        f.write("\nClassification Report (Test Set):\n")
+        f.write(test_classification_report)
 
     return {
         "train_accuracy": train_accuracy, 
@@ -182,4 +194,3 @@ async def train_and_get_accuracy(email, no_of_classes):
         "test_accuracy": test_accuracy,
         "train_loss": history.history['loss'][-1]
     }
-
